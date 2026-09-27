@@ -70,7 +70,7 @@ variables `ACR_VALUES`/`ACR_ESSENTIAL` ne servent qu'à pré-remplir ce champ.
 | `ENABLE_PKCE` | non | `true` | Active PKCE (méthode `S256`) |
 | `ENABLE_DPOP` | non | `false` | Active DPoP (RFC 9449) sur le token endpoint et `/userinfo` |
 | `ENABLE_EXPLANATIONS` | non | `true` | Affiche les sections pédagogiques de l'UI : "Échanges HTTP", "Comprendre PKCE", "Comprendre DPoP" et les panneaux de valeurs PKCE/DPoP de la tentative |
-| `ENABLE_RECOMMANDATIONS` | non | `true` | Affiche le bloc "Bonnes pratiques minimales — Clients OIDC Keycloak" sur la page d'accueil, et le panneau "Contrôles des bonnes pratiques" appliqué aux tokens obtenus sur la page de résultat |
+| `ENABLE_RECOMMANDATIONS` | non | `true` | Affiche le bloc "Bonnes pratiques minimales — Clients OIDC Keycloak" sur la page d'accueil, et le panneau "Contrôle des bonnes pratiques" appliqué aux tokens obtenus sur la page de résultat |
 | `ACR_VALUES` | non | — | Pré-remplit le champ `acr_values` de l'UI (modifiable à chaque login) |
 | `ACR_ESSENTIAL` | non | `false` | Pré-coche la case "exiger strictement" de l'UI |
 | `PUBLIC_BASE_URL` | oui | — | URL publique du service (sert à construire le `redirect_uri` : `PUBLIC_BASE_URL/callback`) |
