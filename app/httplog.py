@@ -18,6 +18,8 @@ import httpx2
 
 SENSITIVE_HEADER_NAMES = {"authorization"}
 SENSITIVE_BODY_FIELDS = {"client_secret"}
+# Masques dans l'UI uniquement quand COPY_BUTTON=false.
+TOKEN_FIELDS = {"access_token", "refresh_token", "id_token"}
 # Masques uniquement dans les logs : l'UI doit pouvoir les afficher.
 LOG_ONLY_SENSITIVE_BODY_FIELDS = {"access_token", "refresh_token", "id_token", "code", "code_verifier"}
 
@@ -57,6 +59,14 @@ def _redact_for_log(entry: dict[str, Any]) -> dict[str, Any]:
     return {
         k: (redact_body(v, fields) if k in ("request_body", "response_body") else v) for k, v in entry.items()
     }
+
+
+def redact_tokens(transcript: list[dict]) -> list[dict]:
+    """Copie du transcript avec les tokens masques, pour l'UI quand COPY_BUTTON=false."""
+    body_keys = ("request_body", "response_body")
+    return [
+        {k: (redact_body(v, TOKEN_FIELDS) if k in body_keys else v) for k, v in e.items()} for e in transcript
+    ]
 
 
 def _safe_response_body(response: httpx2.Response) -> Any:

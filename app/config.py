@@ -47,6 +47,10 @@ class Settings(BaseSettings):
             "Affiche les bonnes pratiques OIDC (accueil) et leurs controles sur les tokens obtenus (resultat)"
         ),
     )
+    copy_button: bool = Field(
+        default=True,
+        description="Affiche le bouton 'Copier l'access_token' sur la page de resultat",
+    )
     acr_values: str | None = Field(
         default=None,
         description=(
@@ -112,6 +116,7 @@ class Settings(BaseSettings):
             "enable_dpop": self.enable_dpop,
             "enable_explanations": self.enable_explanations,
             "enable_recommandations": self.enable_recommandations,
+            "copy_button": self.copy_button,
             "acr_values": self.acr_values,
             "acr_essential": self.acr_essential,
             "http_verify_tls": HTTP_VERIFY_TLS,
