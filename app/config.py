@@ -48,7 +48,7 @@ class Settings(BaseSettings):
         ),
     )
     copy_button: bool = Field(
-        default=True,
+        default=False,
         description="Affiche le bouton 'Copier l'access_token' sur la page de resultat",
     )
     acr_values: str | None = Field(
