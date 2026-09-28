@@ -14,7 +14,7 @@ from fastapi.templating import Jinja2Templates
 from .checks import run_checks
 from .config import HTTP_VERIFY_TLS, get_settings
 from .dpop import generate_dpop_jwk, jwk_thumbprint, public_jwk
-from .httplog import configure_logging, record_exchange
+from .httplog import TOKEN_FIELDS, configure_logging, record_exchange, redact_body, redact_tokens
 from .oidc import (
     build_authorization_url,
     build_logout_url,
@@ -81,6 +81,11 @@ def _render_error(request: Request, error: str, error_description: str, status_c
         {"error": error, "error_description": error_description},
         status_code=status_code,
     )
+
+
+def _ui_transcript(transcript: list[dict]) -> list[dict]:
+    """Transcript a afficher : tokens masques si le bouton de copie est desactive."""
+    return transcript if settings.copy_button else redact_tokens(transcript)
 
 
 def _annotate_dpop_proofs(transcript: list[dict]) -> None:
@@ -223,7 +228,7 @@ async def callback(
                     "result.html",
                     {
                         "config": settings.redacted(),
-                        "transcript": transcript,
+                        "transcript": _ui_transcript(transcript),
                         "success": False,
                         "token_error_status": token_response.status_code,
                         "pkce_info": pkce_info,
@@ -320,10 +325,10 @@ async def callback(
         "result.html",
         {
             "config": settings.redacted(),
-            "transcript": transcript,
+            "transcript": _ui_transcript(transcript),
             "success": True,
             "acr_essential_unmet": acr_essential_unmet,
-            "tokens": tokens,
+            "tokens": tokens if settings.copy_button else redact_body(tokens, TOKEN_FIELDS),
             "decoded": decoded,
             "userinfo": userinfo,
             "generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),

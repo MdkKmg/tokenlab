@@ -53,7 +53,7 @@
         <summary>
           <span class="step">{{ name }}</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
-            {% if name == 'access_token' %}
+            {% if name == 'access_token' and config.copy_button %}
               <button type="button" class="btn-copy" onclick="tokenlabCopyToken(event, this)" data-token="{{ tokens[name] }}">📋 Copier l'access_token</button>
             {% endif %}
             {% if content.signature %}
