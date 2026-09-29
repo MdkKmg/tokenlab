@@ -12,6 +12,10 @@
     <div class="banner err">✘ Échec de l'échange du code contre un token (HTTP {{ token_error_status }}). {% if config.enable_explanations %}Voir le détail de l'échange ci-dessous.{% else %}Le détail des échanges HTTP est masqué (ENABLE_EXPLANATIONS=false).{% endif %}</div>
   {% endif %}
 
+  {% if success and config.copy_button %}
+    <div class="banner warn">⚠ Jetons affichés en clair. Un jeton vaut un mot de passe : toute personne qui le récupère peut appeler les API en votre nom jusqu'à son expiration, sans passer par l'authentification ni le MFA. Ne le collez jamais dans un chat, un ticket, un e-mail, un dépôt Git ou un outil en ligne (décodeur JWT, IA…). Utilisez-le uniquement pour vos tests, puis déconnectez-vous.</div>
+  {% endif %}
+
   {% if acr_info %}
     <div class="panel">
       <strong>ACR (Authentication Context Class Reference)</strong>
@@ -54,7 +58,7 @@
           <span class="step">{{ name }}</span>
           <span style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem;">
             {% if name == 'access_token' and config.copy_button %}
-              <button type="button" class="btn-copy" onclick="tokenlabCopyToken(event, this)" data-token="{{ tokens[name] }}">📋 Copier l'access_token</button>
+              <button type="button" class="btn-copy" onclick="tokenlabCopyToken(event, this)" data-token="{{ tokens[name] }}" title="Secret : à ne coller que dans vos outils de test, jamais dans un chat, un ticket ou un site tiers.">📋 Copier l'access_token</button>
             {% endif %}
             {% if content.signature %}
               {% if content.signature.verified %}
